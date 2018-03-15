@@ -1,0 +1,303 @@
+.jkw_index {
+	/*background: #f4f4f4;*/
+	font-family: "microsoft yahei";
+	padding: 5px;
+}
+
+.jkw_index ul,
+.jkw_index li {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.jkw_index ul:after {
+	content: "";
+	display: block;
+	clear: both;
+	visibility: hidden;
+}
+
+.jkw_index li {
+	float: left;
+	width: 32.4%;
+	height: 214px;
+	margin-right: 1.4%;
+	background: #FFFFFF;
+	border-radius: 10px !important;
+	padding-top: 10px;
+	color: #FFFFFF !important;
+}
+
+.jkw_index li span.index_a i {
+	width: 28px;
+	height: 28px;
+	float: left;
+	margin-left: 18px;
+	margin-right: 15px;
+}
+
+.jkw_index li:first-child {
+	background: #3899f5;
+}
+
+.jkw_index li:nth-child(2) {
+	background: #f94d59;
+}
+
+.jkw_index li:last-child {
+	background: #615dec;
+}
+
+.jkw_index li:first-child span.index_a i {
+	background: url(../images/575303136888401825.png) no-repeat -25px -27px;
+	background-size: 132px;
+}
+
+.jkw_index li:nth-child(2) span.index_a i {
+	background: url(../images/575303136888401825.png) no-repeat -25px -83px;
+	background-size: 132px;
+}
+
+.jkw_index li:last-child span.index_a i {
+	background: url(../images/575303136888401825.png) no-repeat -25px -56px;
+	background-size: 132px;
+}
+
+.jkw_index li:last-child {
+	margin-right: 0;
+}
+
+.jkw_index li h5 {
+	text-align: center;
+	font-size: 19px;
+	font-weight: bold;
+	/*color: #676767;*/
+	line-height: 62px;
+}
+
+
+/*.jkw_index:before{
+	-webkit-box-sizing: inherit !important;
+    -moz-box-sizing: inherit !important;
+    box-sizing: inherit !important; 
+}*/
+
+.jkw_index li span.index_a {
+	/*color: #676767;*/
+	font-size: 17px;
+	/*padding-left: 40px;*/
+}
+
+.jkw_index li:nth-child(2) h5,
+.jkw_index li:first-child h5,
+.jkw_index li:last-child h5 {
+	font-size: 28px;
+}
+
+.jkw_index li:nth-child(2) button {
+	line-height: 20px;
+	background: #FFFFFF;
+	display: block;
+	margin: 20px auto 0;
+	outline: none;
+	border: none;
+	color: #FFFFFF;
+	padding: 5px 16px;
+	border-radius: 8px !important;
+}
+
+.jkw_index li:nth-child(2) button a {
+	font-size: 16px;
+	color: #f94d59;
+}
+
+.jkw_index li:last-child span.index_c {
+	/*color: #b3b3b3;*/
+}
+
+.jkw_index li:last-child h5 em:first-child,
+.jkw_index li:last-child h5 em:last-child {
+	font-size: 14px;
+	padding: 0 5px;
+}
+
+.jkw_index li span.index_b,
+.jkw_index li span.index_c {
+	display: block;
+	text-align: center;
+}
+
+.jkw_index li span.index_b {
+	line-height: 30px;
+	font-size: 16px;
+}
+
+.jkw_index li span.index_c {
+	padding-top: 10px;
+	font-size: 15px;
+	/*color: #fe0c0c;*/
+}
+
+.jkw_index .jkw_index2 {
+	/*height: 210px;*/
+	/*background: #FFFFFF;*/
+	border-radius: 10px !important;
+	margin-top: 20px;
+	text-align: center;
+	padding-bottom: 70px;
+	color: #FFFFFF;
+	background: linear-gradient(to bottom, #0284fe, #2d73f5) !important;
+	-webkit-box-shadow: 1px 3px 4px #3170f5 !important;
+	box-shadow: 1px 3px 4px #3170f5 !important;
+}
+
+.jkw_index .jkw_index2 h5 {
+	font-size: 28px;
+	/*color: #676767;*/
+	padding: 45px 0;
+	margin: 0;
+}
+
+.jkw_index .jkw_index2 p {
+	/*color:#bdbdbd ;*/
+	font-size: 16px;
+	margin: 0;
+	padding: 0 15%;
+	line-height: 42px;
+}
+
+.jkw_index .jkw_index2 button {
+	line-height: 20px;
+	/*background: #0284fe;*/
+	display: block;
+	margin: 20px auto 0;
+	outline: none;
+	border: none;
+	color: #FFFFFF;
+	padding: 8px 35px;
+	background: #FFFFFF;
+	color: #0284fe;
+	font-size: 16px;
+	border-radius: 20px !important;
+}
+
+
+/*底部*/
+
+.contact_2 {
+	padding:20px auto;
+	color: #ccc;
+	background-color: #292b2e;
+}
+
+.contact_2>p {
+	text-align: center;
+	font-size: 23px;
+	margin: 0;
+	padding-top: 20px;
+}
+
+.contact_2 ul {
+	margin: 0 auto;
+	margin-top: 3px;
+	padding-top: 20px;
+	width: 540px;
+	font-size: 0;
+	border-top: 1px solid #333333;
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.contact_2 .left,
+.contact_2 .right {
+	position: relative;
+	width: 135px;
+}
+
+.contact_2 .left {
+	cursor: pointer;
+	background: url(../images/manage/weixin.png) no-repeat 64px center;
+}
+
+.contact_2 ul li {
+	display: inline-block;
+	vertical-align: top;
+	height: 54px;
+}
+
+.contact_2 .center {
+	width: 264px;
+	text-align: center;
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+}
+
+.contact_2 ul li strong {
+	line-height: 100%;
+	font-weight: normal;
+	font-size: 32px;
+	color: #fff;
+}
+
+.fs_14 {
+	font-size: 14px;
+}
+
+.col_666 {
+	color: #666;
+}
+
+
+/*.contact .left div, .contact .right div {
+    display: none;
+    position: absolute;
+    top: -188px;
+    padding: 10px 9px;
+    box-sizing: border-box;
+    text-align: center;
+    width: 148px;
+    height: 174px;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #b6b7b7;
+    background-color: #fff;
+}*/
+
+.contact_2 .left {
+	cursor: pointer;
+	background: url(../images/weixin.png) no-repeat 64px center;
+	background-size: 40px;
+}
+
+.contact_2 .right {
+	cursor: pointer;
+	background: url(../images/weibo.png) no-repeat 30px center;
+	background-size: 40px;
+}
+
+.fs_14 {
+	font-size: 14px;
+}
+
+.mt_24 {
+	margin-top: 24px;
+}
+
+.text_center {
+	text-align: center;
+}
+
+.ml_36 {
+	margin-left: 36px;
+}
+
+.copy {
+	width: 100%;
+	height: 30px;
+	line-height:30px;
+	text-align: center;
+	font-size: 14px;
+	color: #444;
+	background-color: #222426;
+}

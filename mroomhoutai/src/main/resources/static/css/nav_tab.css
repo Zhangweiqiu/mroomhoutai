@@ -1,0 +1,32 @@
+
+
+
+/*.skin-blue .main-header .nav_tab{
+	background: #FEB210 !important;
+}
+.skin-blue .main-header .logo {
+    background-color: #FEB210!important;
+}
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+        background: rgba(0,0,0,0.1);
+        color: #FEB210;
+}
+
+
+.top-menu {
+    margin-left: 0px;
+}*/
+
+ .skin-blue .main-header .navbar .nav>.active>a {
+   /* background: rgba(0,0,0,0.1);*/
+   /* color: #FEB210;*/
+}
+/*.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 15px .5rem;
+  
+}
+body{
+	font-family: "microsoft yahei";
+}*/
