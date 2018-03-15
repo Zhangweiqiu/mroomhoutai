@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<style type="text/css">
+textarea
+{
+	font-family : 微软雅黑,宋体;
+	font-size : 0.8em;
+	color : #000011;
+}
+div
+{
+	font-family : 微软雅黑,宋体;
+	font-size : 1.1em;
+	color : #FFFFFF;
+}
+input
+{
+	color : #000011;
+}
+</style>
+<body>
+	<div align="center" >编辑弹框内容：<br><br>
+		 <textarea style="margin: 0px; width: 600px; height: 450px;" name="bianji" ></textarea>
+	</div>
+	<div class="send-button w3layouts agileits">
+		 <input type="submit" id = "enter" value="确认编辑 ">		
+	</div>
+</body>
+<script>
+var adminj;
+var admin;
+adminj = $.session.get('admin');
+admin = $.parseJSON( adminj );
+$("#enter").click(function(){
+	var strContent = $("textarea[name=bianji]").val();  
+	strContent = strContent.replace(/\r\n/g, '</br>'); //IE9、FF、chrome  
+	strContent = strContent.replace(/\n/g, '</br>'); //IE7-8  
+	strContent = strContent.replace(/\s/g, ' '); //空格处理  
+	if(strContent!=null||strContent.equals("")){
+	$.ajax({
+		url:'/updatatext',
+		type:'post',
+		dataType:'json',
+		data:{'aname':admin.aname,'atext':strContent},
+		success:function(data){
+			if(data){
+				alert("编辑成功!");
+			}else{
+				alert("编辑失败!");
+			}
+		}
+	});
+	}
+});
+</script>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>米房后台管理系统</title>
+
+<script type="text/javascript" src="/../js/jquery.min.js"></script>
+<script type="text/javascript" src = "/../js/jquerysession.js"></script>
+<script type="text/javascript" src="/../js/jquery.easyui.min.js" charset="UTF-8"></script>
+<link rel="stylesheet" href="/../js/themes/default/easyui.css">
+<link rel="stylesheet" href="/../js/themes/icon.css" />
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/index.css" rel="stylesheet">
+<link href="../css.style.css" rel="stylesheet">
+<script type="text/javascript" src="/../js/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div class= "container-fluid">
+		<div class="row">
+		<div  class="col-sm-12 col-md-12 main">
+<table id="dg" class="easyui-datagrid" style="width:auto;height:auto"
+	         toolbar="#toolbar"
+	         rownumbers="true" fitColumns="true" singleSelect="false" checkOnSelect="true"
+	         pagination="true" >
+	         <thead>
+	         	<tr>
+	         		<th field="ck" checkbox="true"></th>
+	         		<th field="borrow_name" width="50">借款人</th>
+	         		<th field="lend_name" width="50">出借人</th>
+	         		<th field="borrow_date" formatter="formatDatebox" width="50">借款时间</th>
+	         		<th field="pay_data" formatter="formatDatebox" width="50">到期时间</th>
+	         		<th field="dan_state" width="50" >状态</th>
+	         		<th field="monery" width="50" >金额</th>
+	         		<th field="borrow_id" width="50" >剩余时间</th>
+	         	</tr>
+	         </thead>
+	         <div id="toolbar">
+	         	<div>
+	         		<span>姓名</span>
+	         		<input id = "d_balname" style="line-height:26px;border:1px solid #ccc">
+	      
+	         		<span>状态</span>
+						<select  id="d_state">
+						  <option value="0" ></option>
+						  <option value="1" >进行中</option>
+						  <option value="2">已完成</option>
+						  <option value="3" >待确认</option>
+						  <option value="4">还款中</option>
+						</select>
+	         		<span>还款时间1</span>
+	         		<input id = "d_pay_data" type="date" style="line-height:26px;border:1px solid #ccc">
+	         		<span>还款时间2</span>
+	         		<input id = "d_pay_data1" type="date" style="line-height:26px;border:1px solid #ccc">
+	         		
+	         		
+	         		<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onClick="doSearch()">查询</a>
+	         		<form id="edownload" method="POST" action="/dan/download/" >
+					       <dd>
+					       <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onClick="downloadFun()">导出成excel</a>
+					      		
+					      </dd>
+					     
+					 </form>     
+	         	</div>
+	         	
+	         </div>	
+	</table>
+	</div>
+	</div>
+	</div>
+
+    
+</body>
+
+
+<script >
+var adminj;
+var admin;
+adminj = $.session.get('admin');
+admin = $.parseJSON( adminj );	
+	
+Date.prototype.format = function (format) {    
+    var o = {    
+        "M+": this.getMonth() + 1, // month    
+        "d+": this.getDate(), // day    
+        "h+": this.getHours(), // hour    
+        "m+": this.getMinutes(), // minute    
+        "s+": this.getSeconds(), // second    
+        "q+": Math.floor((this.getMonth() + 3) / 3), // quarter    
+        "S": this.getMilliseconds()    
+        // millisecond    
+    }    
+    if (/(y+)/.test(format))    
+        format = format.replace(RegExp.$1, (this.getFullYear() + "")    
+            .substr(4 - RegExp.$1.length));    
+    for (var k in o)    
+        if (new RegExp("(" + k + ")").test(format))    
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));    
+    return format;    
+}    
+function formatDatebox(value) {    
+    if (value == null || value == '') {    
+        return '';    
+    }    
+    var dt;    
+    if (value instanceof Date) {    
+        dt = value;    
+    } else {    
+        dt = new Date(value);    
+    }    
+    
+    return dt.format("yyyy-MM-dd"); //扩展的Date的format方法(上述插件实现)    
+}    
+	
+	var url;
+	
+	function doSearch(){
+		var str1=$('#d_pay_data').val().toString();
+		var str2=$('#d_pay_data1').val().toString();
+		$('#dg').datagrid({
+         url:'/dan/search',
+         queryParams: {
+        	 d_balname:$('#d_balname').val(),
+        	 d_state:$("#d_state").find("option:selected").text(),
+        	 d_pay_data:str1,
+        	 d_pay_data1:str2
+			}
+         
+     });
+	}
+	 function downloadFun(){
+		  var str1=$('#d_pay_data').val().toString();
+		  var str2=$('#d_pay_data1').val().toString();
+	      document.getElementById("edownload").action="/dan/download?d_balname="+$('#d_balname').val()+"&d_state="+$("#d_state").find("option:selected").text()+"&d_pay_data="+str1+"&d_pay_data1="+str2;
+	      document.getElementById("edownload").submit();
+
+
+ };			
+</script>
+</html>

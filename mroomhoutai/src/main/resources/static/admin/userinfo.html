@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>米房后台管理系统</title>
+
+<script type="text/javascript" src="/../js/jquery.min.js"></script>
+<script type="text/javascript" src = "/../js/jquerysession.js"></script>
+<script type="text/javascript" src="/../js/jquery.easyui.min.js" charset="UTF-8"></script>
+<link rel="stylesheet" href="/../js/themes/default/easyui.css">
+<link rel="stylesheet" href="/../js/themes/icon.css" />
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/index.css" rel="stylesheet">
+<link href="../css.style.css" rel="stylesheet">
+<script type="text/javascript" src="/../js/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div class= "container-fluid">
+		<div class="row">
+		<div  class="col-sm-12 col-md-12 main">
+<table id="dg" class="easyui-datagrid" style="width:auto;height:auto"
+	         toolbar="#toolbar"
+	         rownumbers="true" fitColumns="true" singleSelect="false" checkOnSelect="true"
+	         pagination="true" >
+	         <thead>
+	         	<tr>
+	         		<th field="ck" checkbox="true"></th>
+	         		<th field="u_id" width="50">编号</th>
+	         		<th field="u_name" width="50">名字</th>
+	         		<th field="u_identity" width="50">身份证号</th>
+	         		<th field="u_phone" width="50">手机号码</th>
+	         		<!-- <th field="u_password" width="50">密码</th>-->
+	         		<th field="u_state" width="50" >权限</th>
+	         		<th field="u_deposit" width="50" >保证金</th>
+	         	</tr>
+	         </thead>
+	         <div id="toolbar">
+	         	<div>
+	         		<a href="#" class = "easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">开通权限</a>
+	         		<a href="#" class = "easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="reloadUser()">刷新</a>
+	         	</div>
+	         	<div>
+	         		<span>姓名</span>
+	         		<input id = "u_name" style="line-height:26px;border:1px solid #ccc">
+	         		<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onClick="doSearch()">用户查找</a>
+	         	</div>
+	         </div>	
+	</table>
+	
+	<div id="dlg" class="easyui-dialog" style="width:600px;height:600px;padding:10px 20px"
+	closed="true" buttons="#dlg-buttons">
+		<form id="fm" method="post" novalidate>
+			<div style="margin-top:10px">
+				<lable style="width:200px;float:left;text-align:right;">编号:</lable>
+				<input style="width:200px" name="u_id" class="easyui-validatebox" required="true" readonly="readonly">
+			</div>
+			<div style="margin-top:10px">
+				<lable style="width:200px;float:left;text-align:right;">用户姓名:</lable>
+				<input style="width:200px" name="u_name" class="easyui-validatebox" required="true" readonly="readonly">
+			</div>
+			<div style="margin-top:10px">
+				<lable style="width:200px;float:left;text-align:right;">身份证号:</lable>
+				<input style="width:200px" name="u_identity" class="easyui-validatebox" required="true" readonly="readonly">
+			</div>
+			<div style="margin-top:10px">
+				<lable style="width:200px;float:left;text-align:right;" >手机号码:</lable>
+				<input style="width:200px;float:center"  name="u_phone" class="easyui-validatebox" required="true" readonly="readonly">
+			</div>
+			<div style="margin-top:10px">
+				<lable style="width:200px;float:left;text-align:right;" >状态:</lable>
+				<input style="width:200px;float:center"  name="u_state" id="u_state"class="easyui-validatebox" >
+			</div>
+			<div style="margin-top:10px">
+				<lable style="width:200px;float:left;text-align:right;" >保证金:</lable>
+				<input style="width:200px;float:center"  name="u_deposit" id="u_deposit"class="easyui-validatebox" >
+			</div>
+			<div style="margin-top:10px">
+				<select  id="bzj">
+				  <option value="1" >2000.00</option>
+				  <option value="0">3000.00</option>
+				</select>
+			</div>
+			<div style="margin-top:10px">
+				<select  id="sfjdb">
+				  <option value="1" >开通权限</option>
+				  <option value="0">关闭权限</option>
+				</select>
+			</div>
+			
+		</form>
+		<div id="dlg-buttons">
+			<a href="#" class="easyui-linkbutton"  onclick="saveUser()">确定</a>
+			<a href="#" class="easyui-linkbutton"  onclick="javascript:$('#dlg').dialog('close')">取消</a>
+		</div> 
+	</div>
+	</div>
+	</div>
+	</div>
+
+    
+</body>
+
+
+<script >
+var adminj;
+var admin;
+adminj = $.session.get('admin');
+admin = $.parseJSON( adminj );
+$(function(){
+		
+		$('#dg').datagrid({
+			url:"/userlist",
+			queryParams: {
+				admin:admin.aname
+			}
+		});
+});		
+
+	function reloadUser(){
+		$('#dg').datagrid({
+			url:"/userlist",
+			queryParams: {
+				admin:admin.aname
+			}
+		});
+	}
+	
+	var url;
+	function doSearch(){
+		$('#dg').datagrid({
+         url:'/user/name/'+$('#u_name').val()
+         
+     });
+	}
+	<!--
+	function destroyUser(){
+		var selRow = $('#dg').datagrid("getSelections");
+		
+		if(selRow.length == 0){
+			alert("请至少选择一行");
+			return false;
+		}
+		
+		var p = selRow[0].phone;
+		for(var i = 1; i < selRow.length;i++){
+			p += ',' + selRow[i].phone;
+		}
+		if(selRow){
+			$.messager.confirm('Confirm','Are you sure you want to destroy this User?',function(r){
+				if(r){
+					//$.post('/delete?id='+a,function(result){
+					$.post('/deleteUser?phone='+ p,function(result){
+						if (result){
+							$('#dg').datagrid('reload');	// reload the user data
+							alert("success");
+						} else {
+							alert("error");
+						}
+					},'json');
+				}
+			});
+		}
+	}
+		-->
+
+		
+	function editUser(){
+		var row = $('#dg').datagrid('getSelected');
+		if(row){
+			$('#dlg').dialog('open').dialog('setTitle','用户信息');
+			$('#fm').form('load',row);
+			url='/editUser';
+		}
+	}
+	function saveUser(){
+		$('#u_state').val($("#sfjdb").find("option:selected").text());
+		$('#u_deposit').val($("#bzj").find("option:selected").text());
+		$('#fm').form('submit',{
+			url:url,
+			onSubmit:function(){
+				return $(this).form('validate'); 
+			},
+			success: function(result){
+				//var result = eval('('+result+')');
+				if (result){
+					$('#dlg').dialog('close');		// close the dialog
+					$('#dg').datagrid('reload');	// reload the user data
+				} else {
+					$.messager.show({
+						title: 'Error',
+						msg: result.msg
+					});
+				}
+			}
+		});
+	}
+	
+	
+</script>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>米房后台管理系统</title>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/index.css" rel="stylesheet">
+<link href="../css.style.css" rel="stylesheet">
+</head>
+
+
+<body>
+	<!--顶部菜单  -->
+	<nav class="navbar navbar-inverse navbar-static-top" role="navigation"> 
+		<div class="container">
+		    <div class="navbar-header">
+		        <a class="navbar-brand" href="#">米房后台管理系统</a>
+		    </div>
+		    <div class="collapse navbar-collapse" >
+		        <ul class="nav navbar-nav navbar-right">
+		            <li ><a href="#">个人中心</a></li>
+		            <li><a href="#" >消息</a></li>
+		            <li class="dropdown">
+		                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		                   	通知<b class="caret"></b>
+		                </a>
+		                <ul class="dropdown-menu">
+		                    <li><a href="#">会议</a></li>
+		                    <li><a href="#">关于</a></li>
+		                    <li><a href="#">退出</a></li>
+		                </ul>
+		            </li>
+		        </ul>
+   			 </div>
+	    </div>
+	</nav>
+	<div class= "container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+		<!--	<div class="panel-group" id="accordion">  -->
+				<ul class="nav nav-sidebar">
+					
+						<li >
+						<a href="#User" class="nav-header menu-first collapsed" data-toggle="collapse"><span><h3>用户管理</h3></span></a>
+						</li>
+						<ul id="User" class="nav nav-list collapse menu-second" >
+							<li onclick = "userPass()"><a href="#"><span><i class ="fa fa-user"></i>未审核用户</span></a></li>
+							<li onclick = "userSucc()"><a href="#"><span><i class ="fa fa-user"></i>已审核用户</span></a></li>
+						</ul>
+						
+					
+					<!-- 	
+						<div class="panel-heading panel">
+	      						<a data-toggle="collapse" data-parent="#accordion" href="#item-cangku" class="side-nav-item item-title">
+	     							<h4> 商家管理</h4>
+	      						</a>
+	      					<div id="item-cangku" class="panel-collapse collapse in">
+	        				<div class="item-body">
+	         					 <ul class="list-unstyled">
+	            					<li class="item-second"><a href="">商家审核</a></li>
+	            					<li class="item-second"><a href="">增加商家</a></li>
+	          					</ul>
+	        				</div>
+	      					</div>
+	   				 </div>
+	   				 -->
+	   				 
+						<li >
+						<a href="#bianji" class="nav-header menu-first collapsed" data-toggle="collapse"><span><h3>弹窗管理</h3></span></a>
+						</li>
+						<ul id="bianji" class="nav nav-list collapse menu-second" onclick = "modelPass()">
+							<li><a href="#"><span><i class ="fa fa-user"></i>内容编辑</span></a></li>
+						</ul>
+						
+						
+						<li >
+						<a href="#jietiao" class="nav-header menu-first collapsed" data-toggle="collapse"><span><h3>借条管理</h3></span></a>
+						</li>
+						<ul id="jietiao" class="nav nav-list collapse menu-second" >
+							<li onclick = "jietiaoPass()"><a href="#"><span><i class ="fa fa-user"></i>借条查询</span></a></li>
+							<li onclick = "jietiaoOpen()"><a href="#"><span><i class ="fa fa-user" ></i>开借条</span></a></li>
+						</ul>
+						
+						
+				</ul>
+			</div>
+	
+		<!--  	</div>  -->
+			<div  class="col-sm-9 col-md-10main">
+				<h1 class="page-header"><i class="fa fa-cog fa-spin"></i>&nbsp;控制台<small>&nbsp;&nbsp;&nbsp;欢迎使用米房后台管理系统</small></h1>
+				<div id="content">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar nav-default navbar-fixed-bottom">
+		<div class="footer w3layouts agileits">
+			<p>Copyright &copy; 米房-2017 </p>
+		</div>
+	</nav>
+	
+	
+	
+</body>
+<script src ="../js/jquery-3.1.0.min.js" ></script>
+<script type="text/javascript" src ="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src = "../js/jquerysession.js"></script>
+
+<script >
+//	$(document).ready(function(){
+//		$("#content").load('/admin/business.html');
+//	});
+	function userPass(){
+		$("#content").load('/admin/userinfo.html');
+	}
+	function userSucc(){
+		$("#content").load('/admin/userSucc.html');
+	}
+	function modelPass(){
+		$("#content").load('/admin/modelEdit.html');
+	}
+	function jietiaoPass(){
+		$("#content").load('/admin/jietiaoSearch.html');
+	}
+	function jietiaoOpen(){
+		$("#content").load('/admin/jietiaoOpen.html');
+	}
+</script>
+</html>
