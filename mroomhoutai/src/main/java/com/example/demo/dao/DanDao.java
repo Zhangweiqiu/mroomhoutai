@@ -39,7 +39,7 @@ public interface DanDao extends CrudRepository<Dan,Integer>, JpaSpecificationExe
 	void hk(Date date,String danid);
 	
 	@Modifying
-	@Query(nativeQuery = true,value = "update dan set old_money = ?1,old_borrowdate=?2,monery=?3,borrow_date=?4,pay_data=?5  WHERE dan_id=?6")
+	@Query(nativeQuery = true,value = "update dan set old_money = ?1,old_borrowdate=?2,monery=?3,borrow_date=?4,pay_data=?5,yanqi_state=1 WHERE dan_id=?6")
 	void yanqi(int oldMoney,Date old_borrowdate,String money,Date borrow_date,String pay_date,String dan_id);
 	
 	@Modifying

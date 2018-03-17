@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class MroomApplication extends SpringBootServletInitializer{
 	
-	 @Override
+		@Override
 	    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 	        return application.sources(MroomApplication.class);
 	    }

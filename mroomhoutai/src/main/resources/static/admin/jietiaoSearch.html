@@ -91,13 +91,26 @@ adminj = $.session.get('admin');
 admin = $.parseJSON( adminj );	
 
 $(function(){
-	
-	$('#dg').datagrid({
-		url:"/danlist",
-		queryParams: {
-			admin:admin.aname
-		}
-	});
+	if(($.session.get('aaa') == undefined)&& ($.session.get('bbb') == undefined)&&($.session.get('ccc') == undefined )&&($.session.get('ddd'))){
+		$('#dg').datagrid({
+			url:"/danlist",
+			queryParams: {
+				admin:admin.aname
+			}
+		});
+	}
+	else{
+		$('#dg').datagrid({
+	         url:'/dan/search',
+	         queryParams: {
+	        	 d_balname:$.session.get('aaa'),
+	        	 d_state:$.session.get('bbb'),
+	        	 d_pay_data:$.session.get('ccc'),
+	        	 d_pay_data1:$.session.get('ddd')
+				}
+	         
+	     });
+	}
 });		
 	
 Date.prototype.format = function (format) {    
@@ -138,6 +151,12 @@ function formatDatebox(value) {
 	function doSearch(){
 		var str1=$('#d_pay_data').val().toString();
 		var str2=$('#d_pay_data1').val().toString();
+		var str3 =$('#d_balname').val();
+		var str4=$("#d_state").find("option:selected").text();
+		$.session.set('aaa',str3);
+		$.session.set('bbb',str4);
+		$.session.set('ccc',str1);
+		$.session.set('ddd',str2);
 		$('#dg').datagrid({
          url:'/dan/search',
          queryParams: {

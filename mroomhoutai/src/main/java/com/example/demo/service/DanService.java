@@ -129,6 +129,7 @@ public class DanService {
 	    map.put("pageNumber", result.getSize()); //10 20 ...
 	    map.put("pageSize", result.getTotalPages()); //总页数
 	    map.put("rows",result.getContent()); //内容
+	    
 	    return map;
 	
 	}
@@ -164,8 +165,9 @@ public class DanService {
 			d = dandao.findByDanID(danid);
 		}
 		dan.setDan_id(danid);
-		dan.setDan_state("进行中");
+		dan.setDan_state("待确认");
 		dan.setYear_rate(Integer.parseInt(year_rate));
+		dan.setOpen_dan(lend_name);
 		Map<String,Object> map = new HashMap<>();
 		if(dandao.save(dan) != null) {
 			map.put("state", true);
@@ -190,6 +192,7 @@ public class DanService {
 		map.put("money", dan.get(0).getMonery());
 		map.put("yearRate", dan.get(0).getYear_rate());
 		map.put("danState", dan.get(0).getDan_state());
+		map.put("danDate", dan.get(0).getDan_date());
 		System.out.println(dan.get(0).getBorrow_name());
 		map.put("url", "jietiaoSearch.html");
 		return map;
@@ -215,7 +218,13 @@ public class DanService {
 		Map<String,Object> map = new HashMap<>();
 		List<Dan> danlist = dandao.findByDanID(dan_id);
 		Dan dan = danlist.get(0);
-		dandao.yanqi(dan.getMonery(), dan.getPay_data(), money, new Date(), pay_date, dan_id);
+		int mon;
+		if(money ==null || "".equals(money)) {
+			mon = dan.getMonery();
+		}else {
+			mon = Integer.parseInt(money);
+		}
+		dandao.yanqi(mon, dan.getPay_data(), money, new Date(), pay_date, dan_id);
 		map.put("danid", dan_id);
 		map.put("url","jietiaoSearch.html");
 		map.put("state", true);

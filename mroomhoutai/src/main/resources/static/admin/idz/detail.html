@@ -50,11 +50,11 @@
             <div class="field-widget"><span id="info7" ></span>
         </div>
         </fieldset>
-       <div style="float:left; width:25%;"> <input type="button" value="确定" onclick="sure();" id="button1" style="background-color:#666666; display:block;" /></div>
-   	<div style="float:left; width:25%;">	<input type="button" value="删除" onclick="delet();" id="button2" style=" display:none;"/></div>
-     <div style="float:left; width:25%;"><input type="button" value="还款" onclick="hk();" id="button3" style="background-color:#666666;display:none;"/>                        </div>
-      <div style="float:left; width:25%;"><input type="button" value="延期" onclick="yanqi();" id="button4" style="display:none;"/></div>
-    
+       <div style="float:left; width:20%;"> <input type="button" value="确定" onclick="sure();" id="button1" style="background-color:#666666; display:block;" /></div>
+   	<div style="float:left; width:20%;">	<input type="button" value="删除" onclick="delet();" id="button2" style=" display:none;"/></div>
+     <div style="float:left; width:20%;"><input type="button" value="还款" onclick="hk();" id="button3" style="background-color:#666666;display:none;"/>                        </div>
+      <div style="float:left; width:20%;"><input type="button" value="延期" onclick="yanqi();" id="button4" style="display:none;"/></div>
+     <div style="float:left; width:20%;"> <input type="button" value="返回" onclick="gotoback2();" /></div>
     
     </div>
 </body>
@@ -119,6 +119,9 @@ function hk(){
 	});
 }
 
+function gotoback2(){
+	$("#content").load('jietiaoSearch.html');
+}
 function yanqi(){
 	$("#content").load('idz/yanqi.html');
 }

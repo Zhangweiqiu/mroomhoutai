@@ -35,6 +35,16 @@ public class Dan {
 	
 	private Integer borrow_id;
 	
+	private String open_dan;
+	
+	public String getOpen_dan() {
+		return open_dan;
+	}
+
+	public void setOpen_dan(String open_dan) {
+		this.open_dan = open_dan;
+	}
+
 	public Integer getD_id() {
 		return d_id;
 	}

@@ -50,7 +50,7 @@ if(a.getAttribute("title") == title) a.disabled = false;
         </div>
           
         <div class="form-row">
-            <div class="field-label"><label for="field3">延期借款时间</label>:</div>
+            <div class="field-label"><label for="field3">延期还款时间</label>:</div>
             <div class="field-widget"><input name="borrow_date" type="date"  id="yinfo1"/></div>
         </div>
         
@@ -70,12 +70,18 @@ if(a.getAttribute("title") == title) a.disabled = false;
         </div>
         
         <div class="form-row">
+            <div class="field-label"><label for="field5">借条生成时间</label>:</div>
+            <div class="field-widget"><span id="info8" ></span></div>
+        </div>
+        
+     
+        <div class="form-row">
             <div class="field-label"><label for="field6">年利率 </label>:</div>
             <div class="field-widget"><span id="info7" ></span>
         </div>
         </fieldset>
-       <input type="button" value="确定" onclick="acceptApproval();" />
-    
+       <div style="float:left; width:50%;">  <input type="button" value="确定" onclick="acceptApproval();" /></div>
+    	 <div style="float:left; width:50%;"> <input type="button" value="返回" onclick="gotoback1();" /></div>
     </div>
 </body>
 
@@ -98,6 +104,7 @@ if(a.getAttribute("title") == title) a.disabled = false;
 		$("#info5").text(date.money);
 		$("#info6").text(date.danState);
 		$("#info7").text(date.yearRate);
+		$("#info8").text(date.danDate);
 		$.session.set('url',date.url);
 	}
 });
@@ -128,6 +135,10 @@ if(a.getAttribute("title") == title) a.disabled = false;
 				}
 			}
 		});
+	}
+	
+	function gotoback1(){
+		$("#content").load('jietiaoSearch.html');
 	}
 </script>
 </html>
