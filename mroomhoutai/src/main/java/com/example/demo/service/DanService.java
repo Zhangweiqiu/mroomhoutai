@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.DanDao;
@@ -28,6 +31,7 @@ import com.example.demo.model.Dan;
 
 @Service
 @Transactional
+@Component  
 public class DanService {
 	@Autowired
 	DanDao dandao;
@@ -128,7 +132,7 @@ public class DanService {
 	    return map;
 	
 	}
-	public void jietiaoOpen(String borrow_name,String lend_name,String borrow_date,String pay_data,String money) throws ParseException {
+	public Map<String,Object> jietiaoOpen(String borrow_name,String lend_name,String borrow_date,String pay_data,String money,String year_rate) throws ParseException {
 		Dan dan = new Dan();
 		java.text.SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd");
 		Date date1 =  formatter.parse(borrow_date);
@@ -148,19 +152,124 @@ public class DanService {
 		int borrowId=(int) (l2/(1000*3600*24));
 		dan.setLend_id(lendId);
 		dan.setBorrow_id(borrowId);
+		dan.setDan_date(new Date());
 		
 		
 		int random=(int)(Math.random()*1000000);
-		String danid = "20171127"+Integer.toString(random);
+		String danid = "20181127"+Integer.toString(random);
 		List<Dan> d = dandao.findByDanID(danid);
 		while(d.size() != 0) {
 			random=(int)(Math.random()*1000000);
-			danid = "20171127"+Integer.toString(random);
+			danid = "20181127"+Integer.toString(random);
 			d = dandao.findByDanID(danid);
 		}
 		dan.setDan_id(danid);
-		dandao.save(dan);
-		System.out.println("2321y89ey");
+		dan.setDan_state("进行中");
+		dan.setYear_rate(Integer.parseInt(year_rate));
+		Map<String,Object> map = new HashMap<>();
+		if(dandao.save(dan) != null) {
+			map.put("state", true);
+			map.put("danid", dan.getDan_id());
+			map.put("url", "idz/detail.html");
+		}
+		else {
+			map.put("state", false);
+			map.put("url", "idz/jietiaoOpen.html");
+		}
+		return map;
+	}
+	
+	public Map<String,Object> searchDan(String danId){
+		Map<String,Object> map = new HashMap<>();
+		 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");  
+		List<Dan> dan = dandao.findByDanID(danId);
+		map.put("borrowName", dan.get(0).getBorrow_name());
+		map.put("lendName", dan.get(0).getLend_name());
+		map.put("borrowdate", sf.format(dan.get(0).getBorrow_date()));
+		map.put("payDate", sf.format(dan.get(0).getPay_data()));
+		map.put("money", dan.get(0).getMonery());
+		map.put("yearRate", dan.get(0).getYear_rate());
+		map.put("danState", dan.get(0).getDan_state());
+		System.out.println(dan.get(0).getBorrow_name());
+		map.put("url", "jietiaoSearch.html");
+		return map;
 	}
 
+	
+	public Map<String,Object> deleteDan(String danId){
+		Map<String,Object> map = new HashMap<>();
+		dandao.deleteDan(danId);
+		map.put("state", true);
+		return map;
+	}
+	
+	public Map<String,Object> hk(String danId){
+		Map<String,Object> map = new HashMap<>();
+		
+		dandao.hk(new Date(),danId);
+		map.put("state", true);
+		return map;
+	}
+	
+	public Map<String,Object> yanqi(String pay_date,String money,String dan_id){
+		Map<String,Object> map = new HashMap<>();
+		List<Dan> danlist = dandao.findByDanID(dan_id);
+		Dan dan = danlist.get(0);
+		dandao.yanqi(dan.getMonery(), dan.getPay_data(), money, new Date(), pay_date, dan_id);
+		map.put("danid", dan_id);
+		map.put("url","jietiaoSearch.html");
+		map.put("state", true);
+		return map;
+	}
+
+	public Map<String,Object> danlist(String aname,Integer page,Integer rows){
+		Map<String,Object> map = new HashMap<>();
+		System.out.println(page);
+		System.out.println(aname);
+		List<Dan> danlist =  dandao.selectDan();
+		System.out.println(danlist.size());
+		map.put("total",danlist.size()); //总条数
+	    map.put("pageNumber",rows); //10 20 ...
+	    map.put("pageSize",page); //当前页数
+	    List<Dan> li = new  LinkedList<Dan>();
+	    if(rows*page >= danlist.size()) {
+	    	if(danlist.size()-rows*(page-1) > 0) {
+		    	 for(int i = 0; i < danlist.size()-rows*(page-1); i++) {
+				    	li.add(danlist.get(rows*(page-1)+i));
+				    }
+	    	}else {
+	    		for(int i = 0; i < danlist.size(); i++) {
+			    	li.add(danlist.get(rows*(page-1)+i));
+			    }
+	    	}
+	    }else {
+	    	for(int i = 0; i < rows; i++) {
+		    	li.add(danlist.get(rows*(page-1)+i));
+		    }
+			    
+	    }
+		map.put("rows",li); //内容
+		return map;
+	
+	}
+	
+
+    @Scheduled(cron="0 0 2 * * ?")  
+    public void testTasks() throws ParseException {
+    	List<Dan> danlist = dandao.All();
+    	
+    	for(Dan dan:danlist) {
+    		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    		String date3_str=format.format(new Date());
+    		String data4_str = format.format(dan.getPay_data());
+    		if(!"".equals(data4_str)&&data4_str!=null) {
+    			Date date3 = format.parse(date3_str);
+    			Date date2 = format.parse(data4_str);
+    			long l2=date2.getTime()-date3.getTime();
+    			int borrowId=(int) (l2/(1000*3600*24));
+    			dandao.updatetime(dan.getDan_id(), borrowId);
+    		}
+    	}
+    	System.out.println(danlist.size());
+    }    
 }

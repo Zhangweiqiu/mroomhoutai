@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -24,5 +25,28 @@ public interface DanDao extends CrudRepository<Dan,Integer>, JpaSpecificationExe
 	@Modifying
 	@Query(nativeQuery = true,value = "SELECT * from dan WHERE dan_id=?1")
 	List<Dan> findByDanID(String danid);
-
+	
+	@Modifying
+	@Query(nativeQuery = true,value = "delete from dan WHERE dan_id=?1")
+	void deleteDan(String danid);
+	
+	@Modifying
+	@Query(nativeQuery = true,value = "SELECT * FROM dan order by borrow_date Desc")
+	List<Dan> selectDan();
+	
+	@Modifying
+	@Query(nativeQuery = true,value = "update dan set dan_state='已完成',repay_date = ?1  WHERE dan_id=?2")
+	void hk(Date date,String danid);
+	
+	@Modifying
+	@Query(nativeQuery = true,value = "update dan set old_money = ?1,old_borrowdate=?2,monery=?3,borrow_date=?4,pay_data=?5  WHERE dan_id=?6")
+	void yanqi(int oldMoney,Date old_borrowdate,String money,Date borrow_date,String pay_date,String dan_id);
+	
+	@Modifying
+	@Query(nativeQuery = true,value = "select * from dan")
+	List<Dan> All();
+	
+	@Modifying
+	@Query(nativeQuery = true,value = "update dan set borrow_id = ?2 where dan_id = ?1")
+	void updatetime(String danId,int borrow_id);
 }

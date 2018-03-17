@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>米房后台管理系统</title>
 
-<script type="text/javascript" src="/../js/jquery.min.js"></script>
+<script type="text/javascript" src="/../js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src = "/../js/jquerysession.js"></script>
 <script type="text/javascript" src="/../js/jquery.easyui.min.js" charset="UTF-8"></script>
 <link rel="stylesheet" href="/../js/themes/default/easyui.css">
@@ -30,10 +30,11 @@
 <table id="dg" class="easyui-datagrid" style="width:auto;height:auto"
 	         toolbar="#toolbar"
 	         rownumbers="true" fitColumns="true" singleSelect="false" checkOnSelect="true"
-	         pagination="true" >
+	         pagination="true">
 	         <thead>
 	         	<tr>
 	         		<th field="ck" checkbox="true"></th>
+	         		<th field="dan_id" hidden>订单号</th>
 	         		<th field="borrow_name" width="50">借款人</th>
 	         		<th field="lend_name" width="50">出借人</th>
 	         		<th field="borrow_date" formatter="formatDatebox" width="50">借款时间</th>
@@ -66,10 +67,11 @@
 	         		<form id="edownload" method="POST" action="/dan/download/" >
 					       <dd>
 					       <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onClick="downloadFun()">导出成excel</a>
-					      		
+					      	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick = "jietiaoOpen()">开借条</a>
 					      </dd>
 					     
 					 </form>     
+					 
 	         	</div>
 	         	
 	         </div>	
@@ -87,6 +89,16 @@ var adminj;
 var admin;
 adminj = $.session.get('admin');
 admin = $.parseJSON( adminj );	
+
+$(function(){
+	
+	$('#dg').datagrid({
+		url:"/danlist",
+		queryParams: {
+			admin:admin.aname
+		}
+	});
+});		
 	
 Date.prototype.format = function (format) {    
     var o = {    
@@ -142,8 +154,18 @@ function formatDatebox(value) {
 		  var str2=$('#d_pay_data1').val().toString();
 	      document.getElementById("edownload").action="/dan/download?d_balname="+$('#d_balname').val()+"&d_state="+$("#d_state").find("option:selected").text()+"&d_pay_data="+str1+"&d_pay_data1="+str2;
 	      document.getElementById("edownload").submit();
-
-
- };			
+ };		
+	function jietiaoOpen(){
+		$("#content").load('/admin/idz/jietiaoOpen.html');
+	}
+ 
+	$('#dg').datagrid({
+		onDblClickRow: function(rowIndex,rowData){
+			var danid = rowData.dan_id;
+			var url = "idz/detail.html";
+			$.session.set('danId1',danid);
+			$("#content").load(url);
+		}
+	});
 </script>
 </html>

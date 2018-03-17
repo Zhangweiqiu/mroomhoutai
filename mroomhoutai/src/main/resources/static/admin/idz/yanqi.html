@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+
+
+<script type="text/javascript">
+//<![CDATA[
+<!--
+// Alternative Style: Working With Alternate Style Sheets
+// http://www.alistapart.com/articles/alternate/
+function setActiveStyleSheet(title) {
+var i, a, main;
+for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+if(a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+a.disabled = true;
+if(a.getAttribute("title") == title) a.disabled = false;
+}
+}
+}
+//-->
+//]]>
+</script>
+<link title="style1" rel="stylesheet" href="../admin/idz/style.css" type="text/css" />
+<link title="style2" rel="alternate stylesheet" href="../admin/idz/style2.css" type="text/css" />
+<link title="style3" rel="alternate stylesheet" href="../admin/idz/style3.css" type="text/css" />
+</head>
+<body>
+	<div class="form_content">
+    <fieldset>
+        <legend>借条详情</legend>
+        <div class="form-row">
+            <div class="field-label"><label for="field1">借款人</label>:</div>
+            <div class="field-widget"><span id="info1" ></span></div>
+        </div>
+        
+        <div class="form-row">
+            <div class="field-label"><label for="field2">出借人</label>:</div>
+            <div class="field-widget"><span id="info2" ></span></div>
+        </div>
+        
+        <div class="form-row">
+            <div class="field-label"><label for="field3">借款时间</label>:</div>
+            <div class="field-widget"><span id="info3" ></span></div>
+        </div>
+        
+         <div class="form-row">
+            <div class="field-label"><label for="field4">原还款时间</label>:</div>
+            <div class="field-widget"><span id="info4" ></span></div>
+        </div>
+          
+        <div class="form-row">
+            <div class="field-label"><label for="field3">延期借款时间</label>:</div>
+            <div class="field-widget"><input name="borrow_date" type="date"  id="yinfo1"/></div>
+        </div>
+        
+         <div class="form-row">
+            <div class="field-label"><label for="field5">原借款金额</label>:</div>
+            <div class="field-widget"><span id="info5" ></span></div>
+        </div>
+        
+         <div class="form-row">
+            <div class="field-label"><label for="field5">借款金额</label>:</div>
+            <div class="field-widget"><input name="money" type="text"  id="yinfo2" placeholder="请务必填写"/></div>
+        </div>
+        
+        <div class="form-row">
+            <div class="field-label"><label for="field5">借款状态</label>:</div>
+            <div class="field-widget"><span id="info6" ></span></div>
+        </div>
+        
+        <div class="form-row">
+            <div class="field-label"><label for="field6">年利率 </label>:</div>
+            <div class="field-widget"><span id="info7" ></span>
+        </div>
+        </fieldset>
+       <input type="button" value="确定" onclick="acceptApproval();" />
+    
+    </div>
+</body>
+
+
+<script src ="../js/jquery-3.1.0.min.js" ></script>
+<script src ="../js/jquerysession.js" ></script>
+
+
+<script>
+	$.ajax({
+	type:'post',
+	url:'/searchDan',
+	data:{"danId":$.session.get('danId1')},
+	dataType:'json',
+	success:function(date){
+		$("#info1").text(date.borrowName);
+		$("#info2").text(date.lendName);
+		$("#info3").text(date.borrowdate);
+		$("#info4").text(date.payDate);
+		$("#info5").text(date.money);
+		$("#info6").text(date.danState);
+		$("#info7").text(date.yearRate);
+		$.session.set('url',date.url);
+	}
+});
+
+
+	function acceptApproval(){
+		var in1 = document.getElementById("yinfo1").value;
+		var in2 = document.getElementById("yinfo2").value;
+		var startTime = new Date(Date.parse(in1));
+		var curTime=new Date(new Date().getTime() - 86400000);
+		if(curTime > startTime){
+			alert("还款时间填写有误，请重新填写！");
+			return false;
+		}
+		$.ajax({
+			type:'post',
+			data:{"pay_date":in1,"money":in2,"dan_id":$.session.get('danId1')}, 
+			url:'/yanqi',
+			dataType:'json',
+			success:function(date){
+				if(date.state){
+					$.session.set('danId1',date.danid);
+					$("#content").load(date.url);
+				}
+				else{
+					alert("开借条失败,请重新填写");
+					$("#content").load(date.url);
+				}
+			}
+		});
+	}
+</script>
+</html>

@@ -2,15 +2,10 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,21 +13,18 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
+import org.hibernate.engine.spi.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -212,9 +204,35 @@ public class DanController {
 	   }  
 	
 	@RequestMapping("/jietiaoOpen")
-	public void jietiaoOpen(String borrow_name,String lend_name,String borrow_date,String pay_data,String money) throws ParseException {
-		System.out.println(borrow_date);
-		danService.jietiaoOpen(borrow_name, lend_name, borrow_date, pay_data, money);
+	public Map<String,Object> jietiaoOpen(String borrow_name,String lend_name,String borrow_date,String pay_data,String money,String year_rate) throws ParseException {
+		return danService.jietiaoOpen(borrow_name, lend_name, borrow_date, pay_data, money,year_rate);
 		
+	}
+	
+	@RequestMapping("/searchDan")
+	public Map<String,Object> searchDan(String danId){
+		System.out.println(danId);
+		return danService.searchDan(danId);
+	}
+	
+	@RequestMapping("/deleteDan")
+	public Map<String,Object> deleteDan(String danId){
+		return danService.deleteDan(danId);
+	}
+	
+	@RequestMapping("/hk")
+	public Map<String,Object> hk(String danId){
+		return danService.hk(danId);
+	}
+	
+	@RequestMapping("/yanqi")
+	public Map<String,Object> yanqi(String pay_date,String money,String dan_id){
+		return danService.yanqi(pay_date,money,dan_id);
+	}
+	
+	@RequestMapping("/danlist")
+	public Map<String,Object> danlist(String aname,Integer page,Integer rows){
+		System.out.println(page);
+		return danService.danlist(aname, page, rows);
 	}
 }
