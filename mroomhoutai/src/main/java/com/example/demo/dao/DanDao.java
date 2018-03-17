@@ -35,7 +35,7 @@ public interface DanDao extends CrudRepository<Dan,Integer>, JpaSpecificationExe
 	List<Dan> selectDan();
 	
 	@Modifying
-	@Query(nativeQuery = true,value = "update dan set dan_state='已完成',repay_date = ?1  WHERE dan_id=?2")
+	@Query(nativeQuery = true,value = "update dan set dan_state='还款中',repay_date = ?1  WHERE dan_id=?2")
 	void hk(Date date,String danid);
 	
 	@Modifying
