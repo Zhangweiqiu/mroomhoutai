@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.DanDao;
 import com.example.demo.model.Dan;
+import com.example.demo.other.TestAnnotation;
 import com.example.demo.service.DanService;
 
 @RestController
@@ -45,6 +46,7 @@ public class DanController {
 	@Autowired
 	DanDao dandao;
 	
+	@TestAnnotation(name="abc")
 	@PostMapping(value="/dan/search")
 	public Map<String,Object> doSearch(String d_balname,String d_state,String d_pay_data,String d_pay_data1,Integer page,Integer rows){
 		return danService.findSearch(d_balname,d_state,d_pay_data,d_pay_data1,page,rows);
