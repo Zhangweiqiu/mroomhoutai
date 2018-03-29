@@ -91,15 +91,8 @@ adminj = $.session.get('admin');
 admin = $.parseJSON( adminj );	
 
 $(function(){
-	if(($.session.get('aaa') == undefined)&& ($.session.get('bbb') == undefined)&&($.session.get('ccc') == undefined )&&($.session.get('ddd'))){
-		$('#dg').datagrid({
-			url:"/danlist",
-			queryParams: {
-				admin:admin.aname
-			}
-		});
-	}
-	else{
+	alert($.session.get('aaa'));
+	if($.session.get('aaa')!='undefined'&&$.session.get('bbb')!='undefined'&&$.session.get('ccc')!='undefined'&&$.session.get('ddd')!='undefined'){
 		$('#dg').datagrid({
 	         url:'/dan/search',
 	         queryParams: {
@@ -107,6 +100,17 @@ $(function(){
 	        	 d_state:$.session.get('bbb'),
 	        	 d_pay_data:$.session.get('ccc'),
 	        	 d_pay_data1:$.session.get('ddd')
+				}
+	         
+	     });
+	}else{
+		$('#dg').datagrid({
+	         url:'/dan/search',
+	         queryParams: {
+	        	 d_balname:"",
+	        	 d_state:"",
+	        	 d_pay_data:"",
+	        	 d_pay_data1:""
 				}
 	         
 	     });

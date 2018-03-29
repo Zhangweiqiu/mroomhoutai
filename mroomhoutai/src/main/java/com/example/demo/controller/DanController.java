@@ -15,15 +15,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.hibernate.engine.spi.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.DanDao;
 import com.example.demo.model.Dan;
-import com.example.demo.other.TestAnnotation;
 import com.example.demo.service.DanService;
 
 @RestController
@@ -46,7 +42,6 @@ public class DanController {
 	@Autowired
 	DanDao dandao;
 	
-	@TestAnnotation(name="abc")
 	@PostMapping(value="/dan/search")
 	public Map<String,Object> doSearch(String d_balname,String d_state,String d_pay_data,String d_pay_data1,Integer page,Integer rows){
 		return danService.findSearch(d_balname,d_state,d_pay_data,d_pay_data1,page,rows);
@@ -229,7 +224,7 @@ public class DanController {
 	}
 	
 	@RequestMapping("/yanqi")
-	public Map<String,Object> yanqi(String pay_date,String money,String dan_id){
+	public Map<String,Object> yanqi(String pay_date,String money,String dan_id) throws ParseException{
 		return danService.yanqi(pay_date,money,dan_id);
 	}
 	

@@ -214,7 +214,7 @@ public class DanService {
 		return map;
 	}
 	
-	public Map<String,Object> yanqi(String pay_date,String money,String dan_id){
+	public Map<String,Object> yanqi(String pay_date,String money,String dan_id) throws ParseException{
 		Map<String,Object> map = new HashMap<>();
 		List<Dan> danlist = dandao.findByDanID(dan_id);
 		Dan dan = danlist.get(0);
@@ -224,7 +224,16 @@ public class DanService {
 		}else {
 			mon = Integer.parseInt(money);
 		}
-		dandao.yanqi(mon, dan.getPay_data(), money, new Date(), pay_date, dan_id);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");      
+		Date date = dan.getPay_data();
+		Date date2 = format.parse(pay_date);
+		String date3_str=format.format(new Date());
+		Date date3 = format.parse(date3_str);			
+		long l=date2.getTime()-date.getTime();
+		long l2=date2.getTime()-date3.getTime();
+		int lendId=(int) (l/(1000*3600*24));
+		int borrowId=(int) (l2/(1000*3600*24));
+		dandao.yanqi(mon, dan.getPay_data(), money, new Date(), pay_date, dan_id,lendId,borrowId);
 		map.put("danid", dan_id);
 		map.put("url","jietiaoSearch.html");
 		map.put("state", true);
