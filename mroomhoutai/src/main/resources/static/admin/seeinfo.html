@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="/../js/jquery.min.js"></script>
+<script type="text/javascript" src = "/../js/jquerysession.js"></script>
+<link   rel="stylesheet" href="/../bootstrap-table/css/bootstrap-table.min.css" />
+<link   rel="stylesheet" href="/../bootstrap-table/css/bootstrap-table.css" />
+<script type="text/javascript" src="/../bootstrap-table/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/../bootstrap-table/js/bootstrap-table-zh-CN.min.js"></script>
+<title>米房后台管理系统</title>
+</head>
+<body>
+<div class="container body-content" style="float:left;">
+	<div style="float:left">
+		<h2>基本信息</h2>
+	</div>
+    <div class="box" style="float:left;">       
+	     <div class="box-body">
+	    	<table class="table table-hover" id="cusTable" data-pagination="true"  data-show-refresh="true"
+	  		data-show-toggle="true"  data-showColumns="true"> 
+	  		<thead>
+	  			<tr>
+	  				<th  style="text-align:center;">
+	  					姓&nbsp;名
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					手机号
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					身份证号
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					申请时间
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					数据来源
+	  				</th>
+	  			</tr>
+	  			<tr>
+	  				<th  style="text-align:center;">
+	  					邱张伟
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					17857021510
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					330825199608175633
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					2015:08:29
+	  				</th>
+	  				<th  style="text-align:center;">
+	  					中国移动
+	  				</th>
+	  			</tr>
+	  		</thead>
+	    	</table>  
+	    </div>
+    </div>
+</div>
+
+<div class="container body-content" style="float:left;">  
+	<div style="float:left">
+		<h2>通话记录</h2>
+	</div>
+    <div class="box" style="float:left;">       
+	     <div class="box-body">
+	    	<table id="bootstrap_table">
+	    	
+	    	</table>  
+	    </div>
+    </div>		
+</div>  
+</body>
+
+<script type="text/javascript">
+
+
+
+$(document).ready(function () {  
+	
+    $('#bootstrap_table').bootstrapTable({
+    	url:'/seeInfo',
+    	mothed:'get',
+       	queryParamsType:'limit',              //默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort  
+        toolbar: '#toolbar', 
+        queryParams: queryParams,  
+        showRefresh : true, // 显示刷新按钮 
+        striped: true,  
+        pagination: true, 
+        pageNumber: 1,  
+        pageSize: 10,  
+        pageList: [10, 20, 50, 100],  
+        sidePagination: "server",         //分页方式：client客户端分页，server服务端分页（*）  
+        striped: true,                    //是否显示行间隔色  
+        cache: false,  
+        uniqueId: "yid",               //每一行的唯一标识，一般为主键列  
+        sortable: true,
+        height:200,  
+        paginationPreText: "上一页",  
+        paginationNextText: "下一页",
+        columns:[
+        	{	checkbox: true},
+			{	title: '编号',field: 'yid',align: 'center'}, 
+		 	{	title: '对方手机号',field: 'othercellphone',align: 'center'}, 
+		 	{	title: '通话地点',field: 'place',align: 'center'}, 
+			{	title: '主叫/被叫',field: 'inittype',align: 'center'},
+			{	title: '通话起始时间',field: 'starttime',align: 'center'},
+			{	title: '通话时长',field: 'usetime',align: 'center'},
+			{	title: '通话类型',field: 'calltype',align: 'center'},
+		 //	{	field: 'operate',title: '操作',align: 'center',
+		   // 	formatter:function(value,row,index){  
+             //   var e = '<a href="#" mce_href="#" onclick="edit(\''+ row.id + '\')">编辑</a> ';  
+               // var d = '<a href="#" mce_href="#" onclick="del(\''+ row.id +'\')">删除</a> ';  
+                 //    return e+d;  
+             	//}
+			//}
+		]
+    });  
+   
+});
+
+function queryParams(params){
+	var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+	        limit: params.limit,   //页面大小
+			offset: params.offset,  //页码
+			phone:$.session.get("cpCell")
+			};
+	return temp;
+}
+
+//查询事件  
+function SearchData() {  
+    $('#table').bootstrapTable('refresh', { pageNumber: 1 });  
+}  
+
+//编辑操作  
+function EditBook(bookId){  
+    alert("编辑操作，图书ID：" + bookId);  
+}  
+
+//删除操作  
+function DeleteBook(bookId) {  
+    if (confirm("确定删除图书ID：" + bookId + "吗？"))  
+    {  
+        alert("执行删除操作");  
+    }  
+}  
+
+//批量删除  
+function BtchDeleteBook(){  
+    var opts = $('#table').bootstrapTable('getSelections');  
+    if (opts == "") {  
+        alert("请选择要删除的数据");  
+    }  
+    else {  
+        var idArray = [];  
+        for (var i = 0; i < opts.length; i++) {  
+            idArray.push(opts[i].BookId);  
+        }  
+        if (confirm("确定删除图书ID：" + idArray + "吗？")) {  
+            alert("执行删除操作");  
+        }  
+    }  
+}  
+
+function getTime(/** timestamp=0 **/) {  
+    var ts = arguments[0] || 0;  
+    var t, y, m, d, h, i, s;  
+    t = ts ? new Date(ts * 1000) : new Date();  
+    y = t.getFullYear();  
+    m = t.getMonth() + 1;  
+    d = t.getDate();  
+    h = t.getHours();  
+    i = t.getMinutes();  
+    s = t.getSeconds();  
+    // 可根据需要在这里定义时间格式  
+    return y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d) + ' ' + (h < 10 ? '0' + h : h) + ':' + (i < 10 ? '0' + i : i) + ':' + (s < 10 ? '0' + s : s);  
+}  
+
+function getShortTime(/** timestamp=0 **/) {  
+    var ts = arguments[0] || 0;  
+    var t, y, m, d, h, i, s;  
+    t = ts ? new Date(ts * 1000) : new Date();  
+    y = t.getFullYear();  
+    m = t.getMonth() + 1;  
+    d = t.getDate();  
+    // 可根据需要在这里定义时间格式  
+    return y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d);  
+}
+</script>
+</html>

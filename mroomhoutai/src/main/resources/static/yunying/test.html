@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    
+<script type="text/javascript" src="/../js/jquery.min.js"></script>
+<script type="text/javascript" src = "/../js/jquerysession.js"></script>
+    <title>米房后台</title>
+    <link rel="stylesheet" href="./css/test.css">
+    <script type="text/javascript">
+        function todo() {
+            var test2 = test("name");
+            if (!test2) {
+                alert("请输入姓名!");
+                return;
+            }
+            var test3 = test("idcard");
+            if (!test3) {
+                alert("请输入身份证！");
+                return;
+            }
+            var test4 = test("phone");
+            if (!test4) {
+                alert("请输入手机号！");
+                return;
+            }
+            window.location.href = "./org.htm?account=yunyikj_CRAWLER&name=" + test2 + "&idcard=" + test3 +"&phone=" + test4;
+        }
+        function test(val) {
+            if (document.getElementsByClassName(val)[0].value) {
+                return document.getElementsByClassName(val)[0].value;
+            }
+        }
+    </script>
+</head>
+<body> 
+<div class="org_div">
+    <div><input type="text" class="name" placeholder="请输入姓名！"/></div>
+    <div><input type="text" class="idcard" placeholder="请输入身份证！"/></div>
+    <div><input type="text" class="phone" placeholder="请输入手机号！"/></div>
+    <div><input type="button" class="sub" value="提交" onclick="todo()"/></div>
+</div> 
+</body>
+
+<script type="text/javascript">
+</script>
+</html>

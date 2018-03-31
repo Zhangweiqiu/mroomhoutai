@@ -78,7 +78,15 @@
 									<li onclick = "jietiaoPass()">
 												<a href="#">借条查询</a>
 											</li>								</ul>
-							</li>		</ul>
+							</li>	
+							<li data-id="13194" class="treeview ">
+								<a href="#" data-close-others="true">数据信息 </a>
+								<div class="img_biao"></div>
+								<ul>
+									<li onclick = "seeinfo123()">
+												<a href="#">查看数据</a>
+											</li>								</ul>
+							</li>	</ul>
 							<div id="w_webhtml" style="padding:10px; padding-right: 50px; padding-left:0;padding-bottom:10px; left: 280px;position:absolute;right: 0;bottom: 0;top: 98px; overflow: auto">
 					<!-- Content Header (Page header) -->
 					<section class="content-header">
@@ -129,6 +137,10 @@
 	}
 	function jietiaoPass(){
 		$("#content").load('/admin/jietiaoSearch.html');
+	}
+	
+	function seeinfo123(){
+		$("#content").load('/admin/ainfo.html');
 	}
 
 </script>

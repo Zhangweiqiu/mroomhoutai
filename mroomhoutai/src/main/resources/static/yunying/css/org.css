@@ -1,0 +1,60 @@
+body{
+	width: 100%;
+}
+.org_iframe{
+	width: calc(100% - 20px);
+	height: 150px;
+	margin: 10px;
+	border: 1px solid #eee;
+}
+input{
+	width: calc(100% - 26px);
+	height: 35px;
+	margin: 10px;
+	border: 1px solid #eee;
+	padding-left: 6px;
+	outline:none;
+	-webkit-appearance: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	border-radius:0px;
+	box-shadow:0px;
+}
+.but_input{
+	width: calc(100% - 20px);
+	background-color: #eec408;
+	color: #ffffff;
+	font-size: 16px;
+	letter-spacing:8px;
+	border:0;
+	border-radius: 3px;
+}
+#msg{
+	font-size: 16px;
+	padding-left: 11px; 
+	position:absolute;
+	left:0;
+	top:50%;
+}
+.switch_div{
+	margin: 0px 10px;
+}
+.switch_div span{
+	width: calc(50% - 7px);
+	height: 30px;
+	display:block; 
+	border: 1px solid #EEEEEE;
+	float: left;
+	text-align: center;
+	line-height: 30px;
+	font-size: 12px;
+}
+.switch_div span:first-child{
+	margin-right: 5px;
+}
+.switch_div span:last-child{
+	margin-left: 5px;
+}
+.switch_div .active-span{
+	background-color: #db5246;
+	color: #FFFFFF;
+}

@@ -91,8 +91,7 @@ adminj = $.session.get('admin');
 admin = $.parseJSON( adminj );	
 
 $(function(){
-	alert($.session.get('aaa'));
-	if($.session.get('aaa')!='undefined'&&$.session.get('bbb')!='undefined'&&$.session.get('ccc')!='undefined'&&$.session.get('ddd')!='undefined'){
+	if($.session.get('aaa')!='undefined'&&$.session.get('bbb')!='undefined'&&$.session.get('ccc')!='undefined'&&$.session.get('ddd')!='undefined'&&$.session.get('ppt')=='undefined'){
 		$('#dg').datagrid({
 	         url:'/dan/search',
 	         queryParams: {
@@ -101,8 +100,8 @@ $(function(){
 	        	 d_pay_data:$.session.get('ccc'),
 	        	 d_pay_data1:$.session.get('ddd')
 				}
-	         
-	     });
+	});
+	
 	}else{
 		$('#dg').datagrid({
 	         url:'/dan/search',
@@ -112,8 +111,8 @@ $(function(){
 	        	 d_pay_data:"",
 	        	 d_pay_data1:""
 				}
-	         
-	     });
+		});
+		
 	}
 });		
 	
@@ -185,6 +184,11 @@ function formatDatebox(value) {
 	$('#dg').datagrid({
 		onDblClickRow: function(rowIndex,rowData){
 			var danid = rowData.dan_id;
+			
+			var grid = $('#dg');  
+			var options = grid.datagrid('getPager').data("pagination").options;  
+			var page = options.pageNumber;//当前页数
+			$.session.set('ppt',page);
 			var url = "idz/detail.html";
 			$.session.set('danId1',danid);
 			$("#content").load(url);

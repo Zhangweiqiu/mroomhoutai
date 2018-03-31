@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta content="always" name="referrer">-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <script type="text/javascript" src="/../js/jquery.min.js"></script>
+	<script type="text/javascript" src = "/../js/jquerysession.js"></script>
+    <title>米房后台</title>
+    <link rel="stylesheet" href="./css/common.css"/>
+    <link rel="stylesheet" href="./css/org.css"/>
+    <script>
+        function creatElement() {
+            var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+            var iframe = document.createElement("iframe");
+            iframe.src = "https://collect.hulushuju.com/#/yunyikj_CRAWLER/hulu";
+            iframe.id = "ifr";
+            if (isIE) {
+                iframe.onreadystatechange = function () {
+                    if (iframe.readyState == "loaded" || iframe.readyState == "complete") {
+                        getParams();
+                    }
+                };
+            } else {
+                iframe.onload = function () {
+                    getParams();
+                };
+            }
+            document.body.appendChild(iframe);
+        }
+        function getParams() {
+            var url = document.URL;
+            var params = url.split("?")[1].split("&");
+            if (params.length < 4) {
+                alert("参数不全！！");
+                return;
+            }
+            var ac, na, ic, ph;
+            for (var i = 0; i < params.length; i++) {
+                var param = params[i];
+                var keyValue = param.split("=");
+                switch (keyValue[0]) {
+                    case "account":
+                        ac = keyValue[1];
+                        break;
+                    case "name":
+                        na = keyValue[1];
+                        break;
+                    case "idcard":
+                        ic = keyValue[1];
+                        break;
+                    case "phone":
+                        ph = keyValue[1];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            $.session.set('phone',ph);
+            na = decodeURIComponent(na);
+            toMessage(ac, na, ic, ph);
+        };
+        function toMessage(ac, na, ic, ph) {
+            var data = {
+                account: ac,
+                fullname: na,
+                idCard: ic,
+                phone: ph
+            }
+            var ifr = document.getElementById('ifr');
+            var targetOrigin = '*';
+            ifr.contentWindow.postMessage(data, targetOrigin);
+        };
+        window.addEventListener('message', function (event) {
+            switch (event.data.status) {
+                case "success"://数据源授权成功
+                    document.getElementById("msg").innerText = "success:" + event.data.content;
+                	var succe = event.data.content;
+                	$.ajax({
+                		url:'/getInfo',
+                		type:'get',
+                		data:{'collectToken': succe,'ph':$.session.get('phone')},
+                		dataType:'json',
+                		seccess:function(date){
+                			alert(date);
+                		}
+                	});
+                	//localtion.href="/readInfo"
+                    break;
+                case "fail"://错误原因以及code
+                    document.getElementById("msg").innerText = "fail:" + event.data.content;
+                    break;
+                case "error"://异常描述
+                    document.getElementById("msg").innerText = "error:" + event.data.content.description;
+                    break;
+                case "bakTk"://三要素提交之后即可通过event.data.content获取token
+//                    document.getElementById("msg").innerText = "getTk:" + event.data.content;
+                    break;
+                default:
+                    break;
+            }
+        }, false);
+    </script>
+</head>
+<body onload="creatElement()">
+<div id="msg"></div>
+</body>
+</html>
