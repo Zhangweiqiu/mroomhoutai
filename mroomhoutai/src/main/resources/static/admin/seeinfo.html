@@ -20,40 +20,19 @@
 	    	<table class="table table-hover" id="cusTable" data-pagination="true"  data-show-refresh="true"
 	  		data-show-toggle="true"  data-showColumns="true"> 
 	  		<thead>
-	  			<tr>
-	  				<th  style="text-align:center;">
-	  					姓&nbsp;名
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					手机号
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					身份证号
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					申请时间
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					数据来源
-	  				</th>
-	  			</tr>
-	  			<tr>
-	  				<th  style="text-align:center;">
-	  					邱张伟
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					17857021510
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					330825199608175633
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					2015:08:29
-	  				</th>
-	  				<th  style="text-align:center;">
-	  					中国移动
-	  				</th>
-	  			</tr>
+		  		<tr>
+		  				<th  data-field="realname"   style="text-align:center;">姓&nbsp;名
+		  				</th>
+		  				<th  data-field ="cellphone" style="text-align:center;">手机号
+		  				</th>
+		  				<th  data-field ="idcard"  style="text-align:center;" >身份证号
+		  				</th>
+		  				<th  data-field ="regtime" style="text-align:center;" >申请时间
+		  				</th>
+		  				<th  data-field ="datasource" style="text-align:center;" >数据来源
+		  				</th>
+		  			</tr>
+	  		
 	  		</thead>
 	    	</table>  
 	    </div>
@@ -63,10 +42,27 @@
 <div class="container body-content" style="float:left;">  
 	<div style="float:left">
 		<h2>通话记录</h2>
+		<a href="#"   onclick="exportUs()">导出成Excel</a>
 	</div>
     <div class="box" style="float:left;">       
 	     <div class="box-body">
 	    	<table id="bootstrap_table">
+	    		<thead>
+	  			<tr>
+	  				<th  data-field="othercellphone"   style="text-align:center;">对方手机号
+	  				</th>
+	  				<th  data-field ="place" style="text-align:center;">通话地点
+	  				</th>
+	  				<th  data-field ="inittype"  style="text-align:center;" >主叫/被叫
+	  				</th>
+	  				<th  data-field ="starttime" style="text-align:center;" >通话起始时间
+	  				</th>
+	  				<th  data-field ="usetime" style="text-align:center;" >通话时长
+	  				</th>
+	  				<th  data-field ="calltype" style="text-align:center;" >通话类型
+	  				</th>
+	  			</tr>
+	  		</thead>
 	    	
 	    	</table>  
 	    </div>
@@ -78,48 +74,22 @@
 
 
 
-$(document).ready(function () {  
-	
-    $('#bootstrap_table').bootstrapTable({
-    	url:'/seeInfo',
-    	mothed:'get',
-       	queryParamsType:'limit',              //默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort  
-        toolbar: '#toolbar', 
-        queryParams: queryParams,  
-        showRefresh : true, // 显示刷新按钮 
-        striped: true,  
-        pagination: true, 
-        pageNumber: 1,  
-        pageSize: 10,  
-        pageList: [10, 20, 50, 100],  
-        sidePagination: "server",         //分页方式：client客户端分页，server服务端分页（*）  
-        striped: true,                    //是否显示行间隔色  
-        cache: false,  
-        uniqueId: "yid",               //每一行的唯一标识，一般为主键列  
-        sortable: true,
-        height:200,  
-        paginationPreText: "上一页",  
-        paginationNextText: "下一页",
-        columns:[
-        	{	checkbox: true},
-			{	title: '编号',field: 'yid',align: 'center'}, 
-		 	{	title: '对方手机号',field: 'othercellphone',align: 'center'}, 
-		 	{	title: '通话地点',field: 'place',align: 'center'}, 
-			{	title: '主叫/被叫',field: 'inittype',align: 'center'},
-			{	title: '通话起始时间',field: 'starttime',align: 'center'},
-			{	title: '通话时长',field: 'usetime',align: 'center'},
-			{	title: '通话类型',field: 'calltype',align: 'center'},
-		 //	{	field: 'operate',title: '操作',align: 'center',
-		   // 	formatter:function(value,row,index){  
-             //   var e = '<a href="#" mce_href="#" onclick="edit(\''+ row.id + '\')">编辑</a> ';  
-               // var d = '<a href="#" mce_href="#" onclick="del(\''+ row.id +'\')">删除</a> ';  
-                 //    return e+d;  
-             	//}
-			//}
-		]
-    });  
-   
+$(document).ready(function () {
+		$.get('/oneuser?phone='+$.session.get("cpCell"),function(data){
+			$('#cusTable').bootstrapTable({
+					data:data.rows
+			});
+		});
+		$.get('/seeInfo?phone='+$.session.get("cpCell"),function(data){
+			$('#bootstrap_table').bootstrapTable({
+					data:data.rows
+			});
+		});
 });
+
+function exportUs(){
+	location.href="/exportUs?phone="+$.session.get("cpCell");
+}
 
 function queryParams(params){
 	var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的

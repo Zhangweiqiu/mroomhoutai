@@ -86,9 +86,10 @@ public class YunyingService {
 		return "ok";
 	}
 	
-	public JSONObject seeInfo(Integer limit,Integer offset,String phone) {
+	public JSONObject seeInfo(String phone) {
+			System.out.println(phone);
 			List<Yunying> yunyingList = (List<Yunying>) yunyingDao.findByCellphone(phone);
-			
+			System.out.println(yunyingList.size());
 			JSONObject json = new JSONObject();
 			json.put("total", yunyingList.size());	
 			json.put("rows", yunyingList);
@@ -96,11 +97,14 @@ public class YunyingService {
 			return json;
 	}
 	
-	public Map<String,Object> oneuser(String phone) {
-		Cp cp = cpDao.findByCellphone(phone);
-		Map<String,Object> map = new HashMap<>();
-		map.put("cp", cp);
-		return map;
+	public JSONObject oneuser(String phone) {
+		System.out.println(phone);
+		List<Cp> cpList = (List<Cp>)  cpDao.findByCellphone(phone);
+		JSONObject json = new JSONObject();
+		json.put("total", 1);	
+		json.put("rows", cpList);
+		System.out.println(json);
+		return json;
 	}
 	
 	

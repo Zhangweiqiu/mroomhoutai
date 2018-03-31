@@ -81,12 +81,10 @@ $(function () {
      		},{
 		          field: 'regtime',
 		          title: '注册时间'
-        	}
-     		{	field: 'operate',title: '操作',align: 'center',formatter:function(value,row,index){  
-	                 var e = '<a href="#" mce_href="#" onclick="edit(\''+ row.cellphone + '\')">查看详情</a> ';
-	                 return e;  
-              	}
- 			},
+        	},
+     		{	
+     			field: 'operate',title: '操作',align: 'center',formatter:'xaingqing'
+			}
      	]
       });
     };
@@ -102,6 +100,10 @@ $(function () {
     return oTableInit;
   };
  
+function xaingqing(value,row,index){
+        var e = '<a href="#" mce_href="#" onclick="edit(\''+ row.cellphone + '\')">查看详情</a> ';
+        return e;  
+}
 function edit(phone){
 	$.session.set("cpCell",phone);
 	$('#content').load("/admin/seeinfo.html");
