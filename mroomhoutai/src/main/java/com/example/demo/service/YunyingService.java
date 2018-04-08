@@ -1,14 +1,9 @@
 package com.example.demo.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.example.demo.dao.CpDao;
 import com.example.demo.dao.YunyingDao;
 import com.example.demo.model.Cp;
